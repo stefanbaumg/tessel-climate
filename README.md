@@ -1,14 +1,14 @@
 # tessel-climate
 
 
-climate.js
+**climate.js**
 
 Uses the tessel microcontroller with the climate module to send temperature and humidity to firebase every second. 
 Use tessel push climate.js to install on the tessel
 Be sure to replace "FIREBASEACCOUNT" with your firebase account.
 
 
-index.html
+**index.html**
 
 Uses highcharts and firebase to render a chart with temperature and humidity data from the tessel. The chart live-updates as new data is added to firebase.
 Same here: Make sure you replace "FIREBASEACCOUNT" with your firebase account.
@@ -19,4 +19,6 @@ Keep in mind that this is for demo purposes and could be improved in many ways. 
 
 
 
-See here for a more detailed breakdown:
+See my post here for a more detailed breakdown:
+
+http://www.codeadventures.com/real-time-temperature-humidity-graph-with-tessel/
