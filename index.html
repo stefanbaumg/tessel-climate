@@ -1,0 +1,81 @@
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+<div id="container" style="width: 800px; height: 400px;"></div>
+<script>
+$(function() {
+
+    // Set up an event that is triggered whenever a new climate-data point is added to firebase
+    var fb = new Firebase('https://FIREBASEACCOUNT.firebaseio.com/climate');
+    fb.on('child_added', function(data) {
+        var dataVal = data.val();
+
+        // add temperature point to series 0, don't redraw yet (false)
+        $('#container').highcharts().series[0].addPoint({
+            x: new Date(dataVal.datetime),
+            y: dataVal.temp
+        }, false);
+
+        // add humidity point to series 0, don't redraw yet (false)
+        $('#container').highcharts().series[1].addPoint({
+            x: new Date(dataVal.datetime),
+            y: dataVal.humid
+        }, false);
+
+        // added points; redraw
+        $('#container').highcharts().redraw();
+    });
+
+    $(document).ready(function() {
+
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+
+        // set up highcharts
+        $('#container').highcharts({
+            chart: {
+                type: 'spline'
+            },
+            title: {
+                text: 'Climate in Stefan\'s office'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: [{
+                labels: {
+                    format: '{value} F'
+                },
+                title: {
+                    text: 'Temperature'
+                }
+            }, {
+                labels: {
+                    format: '{value}%'
+                },
+                opposite: true,
+                title: {
+                    text: 'Humidity'
+                }
+            }],
+            legend: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            series: [{
+                name: 'Temperature',
+                yAxis: 0
+            }, {
+                name: 'Humidity',
+                yAxis: 1
+            }]
+        });
+    });
+});
+</script>
